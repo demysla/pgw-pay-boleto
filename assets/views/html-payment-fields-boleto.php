@@ -47,13 +47,13 @@
             Taxa de câmbio:<strong style="margin-left: 10px;">R$ <?= number_format($configBoleto->cambio, 2, ',', '.'); ?></strong>
         </label>
         <label id="pgw--taxaBRLPedidoBoleto" style="display: block; width: 100%;">
-            Total do pedido:<strong style="margin-left: 10px;">R$ <?= number_format($configBoleto->totalBRL, 2, ',', '.'); ?></strong>
+            Total do pedido:<strong style="margin-left: 10px;">R$ <?= number_format($configBoleto->totalPedidoBRL, 2, ',', '.'); ?></strong>
         </label>
         <label id="pgw--taxaBRLDespesasBoleto" style="display: block; width: 100%;">
-            Impostos incidentes:<strong style="margin-left: 10px;">R$ <?= number_format($configBoleto->totalEncargosComprador, 2, ',', '.'); ?></strong>
+            Impostos incidentes:<strong style="margin-left: 10px;">R$ <?= number_format($configBoleto->totalEncargosCompradorBRL, 2, ',', '.'); ?></strong>
         </label>
         <label id="pgw--taxaBRLBoleto" style="display: block; width: 100%;">
-            Total a pagar com impostos:<strong style="margin-left: 10px;">R$ <?= number_format($configBoleto->totalGeralBRL, 2, ',', '.'); ?></strong>
+            Total a pagar com impostos:<strong style="margin-left: 10px;">R$ <?= number_format($configBoleto->totalGeralCompradorBRL, 2, ',', '.'); ?></strong>
         </label>
     </div>    
     <div class="form-row form-row-wide" id="pgw--boleto-logo-container">

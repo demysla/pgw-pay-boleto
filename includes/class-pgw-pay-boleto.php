@@ -231,7 +231,7 @@ class WC_Gateway_Pgw_Pay_Boleto extends WC_Payment_Gateway
 
         // Registra venda na PGW Payments
         $json = json_encode($this->pedido);
-        $ch = curl_init(PGW_BOLETO_ENDPOINT . '/woo/boleto');
+        $ch = curl_init(PGW_BOLETO_ENDPOINT . '/woo/boletos');
         // $ch = curl_init($this->pgwPayEndpoint);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json);

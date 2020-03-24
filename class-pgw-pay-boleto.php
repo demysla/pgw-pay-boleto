@@ -3,7 +3,7 @@
 Plugin Name: PGW Payments - Boleto
 Plugin URI: http://www.pgwpay.com.br
 Description: Extends WooCommerce with an PGW Payments Boleto gateway.
-Version: 1.1.00
+Version: 1.1.01
 WC requires at least: 3.5
 WC tested up to: 4.0
 Author: PGW Pay
@@ -20,8 +20,8 @@ error_reporting(E_ERROR);
 define('PGW_BOLETO_DIR', WP_PLUGIN_DIR . '/pgw-pay-boleto');
 define('PGW_BOLETO_URL', WP_PLUGIN_URL . '/pgw-pay-boleto');
 
-define('PGW_BOLETO_ENDPOINT', 'http://localhost:8443');
-// define('PGW_BOLETO_ENDPOINT', 'https://api.pgwpay.com.br');
+// define('PGW_BOLETO_ENDPOINT', 'http://localhost:8443');
+define('PGW_BOLETO_ENDPOINT', 'https://api.pgwpay.com.br');
 
 $plugin_data = get_file_data(__FILE__, array('Version' => 'Version'), false);
 define('PGW_BOLETO_VERSION', $plugin_data['Version']);
