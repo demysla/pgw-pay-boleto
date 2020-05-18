@@ -55,7 +55,10 @@
         <label id="pgw--taxaBRLBoleto" style="display: block; width: 100%;">
             Total a pagar com impostos:<strong style="margin-left: 10px;">R$ <?= number_format($configBoleto->totalGeralCompradorBRL, 2, ',', '.'); ?></strong>
         </label>
-    </div>    
+    </div>  
+    <div class="form-row form-row-wide">
+        <p style="margin-top: 15px;"><strong>Importante:</strong> A PGW Payments utiliza a plataforma do PAGSEGURO no processamento das transações com boleto. Todos os nossos boletos são registrados. Pague preferencialmente pelo sistema DDA.</p>
+    </div>  
     <div class="form-row form-row-wide" id="pgw--boleto-logo-container">
         <img id="pgw--boleto-logo" alt="PGW" src="<?= PGW_BOLETO_URL . '/assets/images/logo.png'; ?>" />
     </div>

@@ -42,6 +42,7 @@ class WC_Gateway_Pgw_Pay_Boleto extends WC_Payment_Gateway
         $this->pedido->origem = 'WC';
         $this->pedido->qtdParcela = 1;
         $this->pedido->formaPagamento = 'BOLETO';        
+        $this->pedido->recorrente = false;        
         $this->pedido->licencaId = trim($this->shopId);
         $this->pedido->origemVersao = PGW_BOLETO_VERSION;
         $this->pedido->environment = 'production';
