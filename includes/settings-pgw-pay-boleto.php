@@ -12,7 +12,7 @@ return array(
         'title' => __('Enable/Disable', 'woocommerce'),
         'type' => 'checkbox',
         'label' => __('Ativar Atualização de Status Automática', 'woocommerce'),
-        'default' => 'no',
+        'default' => 'yes',
     ),
     'shopId' => array(
         'title' => __('Identificador da Loja', 'woocommerce'),

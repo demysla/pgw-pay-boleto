@@ -41,8 +41,8 @@ class WC_Gateway_Pgw_Pay_Boleto extends WC_Payment_Gateway
         // Pedido
         $this->pedido->origem = 'WC';
         $this->pedido->qtdParcela = 1;
-        $this->pedido->formaPagamento = 'BOLETO';        
-        $this->pedido->recorrente = false;        
+        $this->pedido->formaPagamento = 'BOLETO';
+        $this->pedido->recorrente = false;
         $this->pedido->licencaId = trim($this->shopId);
         $this->pedido->origemVersao = PGW_BOLETO_VERSION;
         $this->pedido->environment = 'production';
@@ -123,7 +123,7 @@ class WC_Gateway_Pgw_Pay_Boleto extends WC_Payment_Gateway
                 return;
             }
             $this->pedido->compradorTipoDoc = 'CPF';
-            $this->pedido->compradorCpfCnpj = preg_replace('/[^0-9]/', '', $_POST['pgw--cpfBoleto']);  
+            $this->pedido->compradorCpfCnpj = preg_replace('/[^0-9]/', '', $_POST['pgw--cpfBoleto']);
             if (strlen($this->pedido->compradorCpfCnpj) < 11) {
                 wc_add_notice('Digite um CPF válido.', 'error');
                 return;
@@ -140,15 +140,18 @@ class WC_Gateway_Pgw_Pay_Boleto extends WC_Payment_Gateway
                 return;
             }
         }
-        
+
         if (!isset($_POST['pgw--boletoConfig'])) {
             wc_add_notice('Erro ao totalizar o pedido.', 'error');
             return;
         }
         $configBoleto = json_decode(stripslashes($_POST['pgw--boletoConfig']));
-        
+
         $this->pedido->moedaLoja = $configBoleto->moeda;
         $this->pedido->cambio = $configBoleto->cambio;
+        $this->pedido->tarifaPGW = $configBoleto->tarifaPGW;
+        $this->pedido->tarifaFundo = $configBoleto->tarifaFundo;
+        $this->pedido->tarifaBoleto = $configBoleto->tarifaBoleto;
         $this->pedido->totalPedidoBase = $configBoleto->totalPedidoBase;
         $this->pedido->totalPedidoBRL = $configBoleto->totalPedidoBRL;
         $this->pedido->totalGeralCompradorBase = $configBoleto->totalGeralCompradorBase;
@@ -164,7 +167,7 @@ class WC_Gateway_Pgw_Pay_Boleto extends WC_Payment_Gateway
 
         $this->pedido->totalWC = $configBoleto->totalPedidoBase;
         $this->pedido->totalGeral = $configBoleto->totalGeralCompradorBRL;
-        $this->pedido->vlrParcela = $configBoleto->totalGeralCompradorBRL;        
+        $this->pedido->vlrParcela = $configBoleto->totalGeralCompradorBRL;
 
         $this->pedido->pedidoNumero = $order->get_order_number();
 
@@ -174,8 +177,19 @@ class WC_Gateway_Pgw_Pay_Boleto extends WC_Payment_Gateway
         $this->pedido->compradorEmail = $order->get_billing_email();
 
         $this->pedido->compradorFoneCompleto = preg_replace('/[^0-9]/', '', $order->get_billing_phone());
-        $this->pedido->compradorDdd = substr($this->pedido->compradorFoneCompleto, 0, 2);
-        $this->pedido->compradorFone = substr($this->pedido->compradorFoneCompleto, 2);
+
+        if (!isset($this->pedido->compradorFoneCompleto) || strlen($this->pedido->compradorFoneCompleto) < 10) {
+            wc_add_notice('Informe um telefone com DDD válido. Ex.: 11987654321 ou 1132104567', 'error');
+            return;
+        }
+
+        if (strlen($this->pedido->compradorFoneCompleto) > 11 ) {
+            $this->pedido->compradorDdd = substr($this->pedido->compradorFoneCompleto, 2, 4);
+            $this->pedido->compradorFone = substr($this->pedido->compradorFoneCompleto, 4);
+        } else {
+            $this->pedido->compradorDdd = substr($this->pedido->compradorFoneCompleto, 0, 2);
+            $this->pedido->compradorFone = substr($this->pedido->compradorFoneCompleto, 2);
+        }
 
         $billing_array = $order->get_address();
 
@@ -247,6 +261,12 @@ class WC_Gateway_Pgw_Pay_Boleto extends WC_Payment_Gateway
             error_log('PGW Payments: ' . $erro);
         }
         curl_close($ch);
+
+        if ($json_response->pagseguroStatus == 12) {
+            wc_add_notice('Falha no processamento! Revise os dados informados.', 'error');
+            return;
+        }
+
         $order->set_customer_note($json_response->paymentLink);
         $order->save();
 

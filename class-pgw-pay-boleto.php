@@ -3,7 +3,7 @@
 Plugin Name: PGW Payments - Boleto
 Plugin URI: http://www.pgwpay.com.br
 Description: Extends WooCommerce with an PGW Payments Boleto gateway.
-Version: 1.1.02
+Version: 1.1.04
 WC requires at least: 3.5
 WC tested up to: 4.1
 Author: PGW Pay
